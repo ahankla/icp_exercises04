@@ -11,9 +11,9 @@ def harmonic_oscillator_k(x, eps):
     """" k(x) function as described in Exercise Sheet 4(normalized):
          y''(x) + k(x) y(x) = 0
          x is np.array 1xn
-         eps is the normalized energy.
-         This specific function k(x) for harmonic oscillator"""
-    return 2*eps-x**2
+         eps is the normalized energy
+         This specific function k(x) for harmonic oscillator """
+    return 2*eps - x**2
 
 
 def numerov(psi0, psi1, eps, N, kfun):
@@ -40,9 +40,10 @@ def numerov(psi0, psi1, eps, N, kfun):
     # Step size
     h = 1./N
 
-    # Integrate using the Numerov Algorithm
+    # Integrate using the Numerov Algorithm, to O(h^6)
     for i in range(2, N):
-        rhs = 2*(1-5./12.*h**2*kval[i-1])*psi[i-1]-(1+1./12.*h**2*kval[i-2])*psi[i-2]
+        rhs = 2*(1 - 5./12.*h**2*kval[i-1])*psi[i-1] \
+              - (1 + 1./12.*h**2*kval[i-2])*psi[i-2]
         lhs = (1 + 1./12.*h**2*kval[i])
         psi[i] = rhs / lhs
 
@@ -51,13 +52,14 @@ def numerov(psi0, psi1, eps, N, kfun):
 
 def hermite_generator(x, n):
     """ Calculate the nth Hermite polynomial recursively.
-        Formula from Exercise Sheet 4."""
+        Formula from Exercise Sheet 4. """
     if n == 0:
         return 1
     elif n == 1:
         return 2*x
     else:
-        return 2*x*hermite_generator(x, n-1)-2*(n-1)*hermite_generator(x, n-2)
+        return 2*x*hermite_generator(x, n-1) \
+               -2*(n-1)*hermite_generator(x, n-2)
 
 
 def analytic_wavefunction(x, n):
@@ -78,24 +80,34 @@ def normalized_function(psi):
     return psi/np.sqrt(p2norm)
 
 
+
 # Test odd solution (n = 1, 3, ...)
-eps = 1.5; n = 1  # degree of Hermite
 N = 100
+eps = 1.5; n = 1  # degree of Hermite
 psi0 = 0
 psi1 = 1  # a = 1
 xr = np.linspace(0, 1, N)
 psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
 normed_psi = normalized_function(psi)
-
-f = 1
-plt.figure(f); f += 1
-plt.plot(xr, normed_psi)
-plt.plot(xr, normalized_function(analytic_wavefunction(xr, n)), linestyle=":")
-plt.legend(["Integrated", "Analytic"])
-plt.xlabel("x")
-plt.ylabel("wavefunction psi")
-plt.title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
-plt.savefig("exercise4_problem1_antisymEx.pdf")
+# Analytic
+analytic_soln = normalized_function(analytic_wavefunction(xr, n))
+# Plot 1
+fig, axarr = plt.subplots(2,1)
+# Solutions
+axarr[0].plot(xr, normed_psi, label="Integrated")
+axarr[0].plot(xr, analytic_soln, 
+         linestyle=":", label="Analytic")
+axarr[0].legend()
+axarr[0].set_xlabel("x")
+axarr[0].set_ylabel("wavefunction psi")
+axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
+# Remainder
+axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Integrated)")
+axarr[1].legend()
+axarr[1].set_xlabel("Step Count N")
+axarr[1].set_ylabel("Difference")
+plt.tight_layout()
+fig.savefig("exercise4_problem1_antisymEx.pdf")
 # plt.show()
 
 # Test even solution (n = 0, 2, ...)
@@ -107,13 +119,29 @@ psi1 = psi0 - (1./N)**2*psi0/2*harmonic_oscillator_k(0, eps)
 xr = np.linspace(0, 1, N)
 psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
 normed_psi = normalized_function(psi)
-
-plt.figure(f); f += 1
-plt.plot(xr, normed_psi**2)
-plt.plot(xr, normalized_function(analytic_wavefunction(xr, n))**2, linestyle=':')
-plt.legend(["Integrated", "Analytic"])
-plt.xlabel("x")
-plt.ylabel("wavefunction psi")
-plt.title("Sample Symmetric function: Energy Eigenvalue {}".format(n))
-plt.savefig("exercise4_problem1_symEx.pdf")
+# Analytic
+analytic_soln = normalized_function(analytic_wavefunction(xr, n))**2
+# Plot 2
+fig, axarr = plt.subplots(2,1)
+# Solutions
+axarr[0].plot(xr, normed_psi**2, label="Integrated")
+axarr[0].plot(xr, analytic_soln, 
+         linestyle=":", label="Analytic")
+axarr[0].legend()
+axarr[0].set_xlabel("x")
+axarr[0].set_ylabel("wavefunction psi")
+axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
+# Remainder
+axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Integrated)")
+axarr[1].legend()
+axarr[1].set_xlabel("Step Count N")
+axarr[1].set_ylabel("Difference")
+plt.tight_layout()
+fig.savefig("exercise4_problem1_symEx.pdf")
 plt.show()
+
+
+
+
+
+
