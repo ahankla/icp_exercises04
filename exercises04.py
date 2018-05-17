@@ -42,9 +42,9 @@ def numerov(psi0, psi1, eps, N, kfun):
 
     # Integrate using the Numerov Algorithm, to O(h^6)
     for i in range(2, N):
-        rhs = 2*(1 - 5./12.*h**2*kval[i-1])*psi[i-1] \
-              - (1 + 1./12.*h**2*kval[i-2])*psi[i-2]
-        lhs = (1 + 1./12.*h**2*kval[i])
+        rhs = 2*(1 - (5./12.)*(h**2)*kval[i-1])*psi[i-1] \
+              - (1 + (1./12.)*(h**2)*kval[i-2])*psi[i-2]
+        lhs = (1 + (1./12.)*(h**2)*kval[i])
         psi[i] = rhs / lhs
 
     return psi
@@ -94,7 +94,7 @@ analytic_soln = normalized_function(analytic_wavefunction(xr, n))
 # Plot 1
 fig, axarr = plt.subplots(2,1)
 # Solutions
-axarr[0].plot(xr, normed_psi, label="Integrated")
+axarr[0].plot(xr, normed_psi, label="Numeric")
 axarr[0].plot(xr, analytic_soln, 
          linestyle=":", label="Analytic")
 axarr[0].legend()
@@ -102,7 +102,7 @@ axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
 # Remainder
-axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Integrated)")
+axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Numeric)")
 axarr[1].legend()
 axarr[1].set_xlabel("Step Count N")
 axarr[1].set_ylabel("Difference")
@@ -124,7 +124,7 @@ analytic_soln = normalized_function(analytic_wavefunction(xr, n))**2
 # Plot 2
 fig, axarr = plt.subplots(2,1)
 # Solutions
-axarr[0].plot(xr, normed_psi**2, label="Integrated")
+axarr[0].plot(xr, normed_psi**2, label="Numeric")
 axarr[0].plot(xr, analytic_soln, 
          linestyle=":", label="Analytic")
 axarr[0].legend()
@@ -132,7 +132,7 @@ axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
 # Remainder
-axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Integrated)")
+axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Numeric)")
 axarr[1].legend()
 axarr[1].set_xlabel("Step Count N")
 axarr[1].set_ylabel("Difference")
