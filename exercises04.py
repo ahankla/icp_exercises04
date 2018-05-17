@@ -144,4 +144,30 @@ plt.show()
 
 
 
+# -----------------------------------------------
+#   Exercise 2: Neutrons in the gravitational field
+# -----------------------------------------------
+# Finding stationary states in the gravitational field of Earth
+
+# V(z) = mgz  for z>=0
+# perfect reflecting mirror at: z=0
+# therefore,  V(z) = inf  for z<0
+
+# psi''(x) + (eps-x) psi(x) = 0
+
+
+## Part 1: 
+# a) Solve using Numerov
+# b) Plot solution well into classically forbidden zone
+#    that is:  from x=0 to x>>eps  for some values for eps
+# c) for large x: does it approach +/- inf?
+# d) Plot two solutions (for two values of eps), one of each
+
+
+## Part 2:
+# eigenvalues, eps_n, belong to normalizable eigenfunctions
+# with psi(x)->0 for x->inf
+# therefore, increasing eps_n => psi(x) changes sign for x->inf
+# a) use this property and eps_n of the first 3 bound states to 2 after comma decimals
+
 
