@@ -21,6 +21,7 @@ def numerov(psi0, psi1, eps, N, kfun):
     Starting conditions:
       psi0: psi(x=0)
       psi1: psi(x=h)
+    eps: 
     N: number of bins in x direction. Assume start at x=0, go to x = n
     kfun: The function k(x), as in y''(x) + k(x) y(x) = 0
     """
@@ -82,15 +83,20 @@ def normalized_function(psi):
 
 
 # Test odd solution (n = 1, 3, ...)
-N = 100
-eps = 1.5; n = 1  # degree of Hermite
+N = 100  # Steps
+xr = np.linspace(0, 1, N)  # Normalize range
+n = 1  # degree of Hermite
+eps = 1.5
+# First values
 psi0 = 0
 psi1 = 1  # a = 1
-xr = np.linspace(0, 1, N)
+# Numeric Solution (normalized)
 psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
+# Analytic Solution (normalized)
+analytic_soln = analytic_wavefunction(xr, n)
+# Normalize: x, numeric, analytic
 normed_psi = normalized_function(psi)
-# Analytic
-analytic_soln = normalized_function(analytic_wavefunction(xr, n))
+analytic_soln = normalized_function(analytic_soln)
 # Plot 1
 fig, axarr = plt.subplots(2,1)
 # Solutions
@@ -113,17 +119,22 @@ fig.savefig("exercise4_problem1_antisymEx.pdf")
 # Test even solution (n = 0, 2, ...)
 # Note the starting conditions and energy are different
 N = 100
-eps = 0.5; n = 0  # degree of hermite
+xr = np.linspace(0, 1, N)  # Normalize range
+n = 0  # degree of hermite
+eps = 0.5
+# First Values
 psi0 = 1
 psi1 = psi0 - (1./N)**2*psi0/2*harmonic_oscillator_k(0, eps)
-xr = np.linspace(0, 1, N)
+# Numeric Solution
 psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
+# Analytic Solution
+analytic_soln = analytic_wavefunction(xr, n)
+# Normalize: x, numeric, analytic
 normed_psi = normalized_function(psi)
-# Analytic
-analytic_soln = normalized_function(analytic_wavefunction(xr, n))**2
+analytic_soln = normalized_function(analytic_soln)**2
 # Plot 2
 fig, axarr = plt.subplots(2,1)
-# Solutions
+# Plot 2: Solutions
 axarr[0].plot(xr, normed_psi**2, label="Numeric")
 axarr[0].plot(xr, analytic_soln, 
          linestyle=":", label="Analytic")
@@ -131,7 +142,7 @@ axarr[0].legend()
 axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
-# Remainder
+# Plot 2: Remainder
 axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Numeric)")
 axarr[1].legend()
 axarr[1].set_xlabel("Step Count N")
@@ -149,15 +160,60 @@ plt.show()
 # -----------------------------------------------
 # Finding stationary states in the gravitational field of Earth
 
-# V(z) = mgz  for z>=0
-# perfect reflecting mirror at: z=0
-# therefore,  V(z) = inf  for z<0
+def mirror(mirror_pos, *args):  # validate arguments
+    """ 
+    decorator placeing mirror at mirror_pos
+    if z<mirror_pos: return np.inf
+    """
+    def onDecorator(func):
+        if not __debug__: 
+            # Allow for pass through in debug mode
+            return func 
+        else:           
+            # Execute Decorator
+            m, g, z = args
+            if z < mirror_pos:
+                print('hit mirror')
+                return np.inf()
+            else:
+                return func(*args)
+    return onDecorator
+
+@mirror(mirror_pos=0)
+def grav_potential(m, g, z):
+    """ return newtonian gravitational potential: V(z) = mgz """
+    return m*g*z
+
+#def mirror(z, mirror_pos=0):
+#    """ implement mirror at z-position """ 
+#    if z >= mirror_pos:
+#        return grav_potential
+#    else:
+#        print("Hit mirror")
+#        return np.inf()
+
+
 
 # psi''(x) + (eps-x) psi(x) = 0
 
 
-## Part 1: 
+## Part 1:
+
 # a) Solve using Numerov
+# Specify length & energy units
+# ???
+N = 100
+eps = 0.5
+# First Values
+psi0 = 0
+psi1 = 0
+# Numeric Solutions
+psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
+normed_psi = normalized_function(psi)
+
+
+
+
 # b) Plot solution well into classically forbidden zone
 #    that is:  from x=0 to x>>eps  for some values for eps
 # c) for large x: does it approach +/- inf?
