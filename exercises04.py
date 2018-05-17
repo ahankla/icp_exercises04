@@ -10,18 +10,25 @@ from scipy.integrate import simps
 def harmonic_oscillator_k(x, eps):
     """" k(x) function as described in Exercise Sheet 4(normalized):
          y''(x) + k(x) y(x) = 0
-         x is np.array 1xn
-         eps is the normalized energy
+         x: np.array 1xn
+         eps: normalized energy
          This specific function k(x) for harmonic oscillator """
     return 2*eps - x**2
 
+def eps_mins_x_k(x, eps):
+    """" k(x) function as described in Exercise Sheet 4(normalized):
+         y''(x) + k(x) y(x) = 0
+         x: np.array 1xn
+         eps: normalized energy
+         This specific function k(x) for harmonic oscillator """
+    return eps - x
 
 def numerov(psi0, psi1, eps, N, kfun):
     """ Numerov Integration of TISE
     Starting conditions:
       psi0: psi(x=0)
       psi1: psi(x=h)
-    eps: 
+    eps: normalized energy
     N: number of bins in x direction. Assume start at x=0, go to x = n
     kfun: The function k(x), as in y''(x) + k(x) y(x) = 0
     """
@@ -202,13 +209,16 @@ def grav_potential(m, g, z):
 # a) Solve using Numerov
 # Specify length & energy units
 # ???
+m = 1
+g = 1
+# General
 N = 100
 eps = 0.5
 # First Values
 psi0 = 0
 psi1 = 0
 # Numeric Solutions
-psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
+psi = numerov(psi0, psi1, eps, N, eps_mins_x_k)
 normed_psi = normalized_function(psi)
 
 
