@@ -16,11 +16,11 @@ def harmonic_oscillator_k(x, eps):
     return 2*eps - x**2
 
 def eps_mins_x_k(x, eps):
-    """" k(x) function as described in Exercise Sheet 4(normalized):
-         y''(x) + k(x) y(x) = 0
+    """" psi''(x) + k(x) psi(x) = 0
+         k(x) = (eps-x)
          x: np.array 1xn
-         eps: normalized energy
-         This specific function k(x) for harmonic oscillator """
+         eps: normalized energy """
+    x[x<0] = np.inf  # mirror
     return eps - x
 
 def numerov(psi0, psi1, eps, N, kfun):
@@ -156,7 +156,7 @@ axarr[1].set_xlabel("Step Count N")
 axarr[1].set_ylabel("Difference")
 plt.tight_layout()
 fig.savefig("exercise4_problem1_symEx.pdf")
-plt.show()
+
 
 
 
@@ -166,29 +166,34 @@ plt.show()
 #   Exercise 2: Neutrons in the gravitational field
 # -----------------------------------------------
 # Finding stationary states in the gravitational field of Earth
+# https://www.physi.uni-heidelberg.de/Publications/dipl_krantz.pdf
 
-def mirror(mirror_pos, *args):  # validate arguments
+def mirror(mirror_pos, *argchecks):  # validate arguments
     """ 
-    decorator placeing mirror at mirror_pos
+    decorator placing mirror at mirror_pos
     if z<mirror_pos: return np.inf
     """
     def onDecorator(func):
         if not __debug__: 
             # Allow for pass through in debug mode
             return func 
-        else:           
+        else:     
+            def onCall(*args):
             # Execute Decorator
-            m, g, z = args
-            if z < mirror_pos:
-                print('hit mirror')
-                return np.inf()
-            else:
-                return func(*args)
+                m, g, z = argchecks
+                if z < mirror_pos:
+                    print('hit mirror')
+                    return np.inf()
+                else:
+                    return func(*args)
+            return onCall
     return onDecorator
+
 
 @mirror(mirror_pos=0)
 def grav_potential(m, g, z):
     """ return newtonian gravitational potential: V(z) = mgz """
+    # Normalized, really only need z...
     return m*g*z
 
 #def mirror(z, mirror_pos=0):
@@ -200,35 +205,56 @@ def grav_potential(m, g, z):
 #        return np.inf()
 
 
-
+# psi'' + 2m/hbar (E-V(z)) psi = 0
+# psi'' + 2m/hbar (E-mgz)) psi = 0
+# psi'' + (eps - (2m/hbar)*mgz) psi = 0
+# psi'' + (eps - x) psi = 0
 # psi''(x) + (eps-x) psi(x) = 0
 
 
 ## Part 1:
 
 # a) Solve using Numerov
-# Specify length & energy units
-# ???
-m = 1
-g = 1
+# Specify length & energy units:
+#   eps = E*2m/hbar
+#   x = (2m^2 g/hbar)*z
+# Or:
+#   R = (hbar^2/(sm^2 g)^1/3
+#   x = z/R
+#   eps = E/(mgR)
+# with V(z) = mgz:
+#   x = (2m/hbar) V(x)
+#   eps = E*2m/hbar
 # General
 N = 100
-eps = 0.5
+eps = -0.2
 # First Values
-psi0 = 0
-psi1 = 0
+psi0 = 0  # trivial solution
+psi1 = 1  # 
 # Numeric Solutions
 psi = numerov(psi0, psi1, eps, N, eps_mins_x_k)
-normed_psi = normalized_function(psi)
-
-
-
+# Normalize 
+#normed_psi = normalized_function(psi)
+xr = np.linspace(0, 1, N)  
 
 # b) Plot solution well into classically forbidden zone
 #    that is:  from x=0 to x>>eps  for some values for eps
-# c) for large x: does it approach +/- inf?
-# d) Plot two solutions (for two values of eps), one of each
+# Plot 3
+fig, axarr = plt.subplots(2,1)
+# Plot 3: Solutions
+axarr[0].plot(xr, psi, label="Numeric")
+#axarr[0].plot(xr, analytic_soln, 
+#         linestyle=":", label="Analytic")
+axarr[0].legend()
+axarr[0].set_xlabel("x")
+axarr[0].set_ylabel("wavefunction psi")
+axarr[0].set_title("Neutron in Gravitational Field: {}".format(eps))
 
+# c) for large x: does it approach +/- inf?
+
+
+# d) Plot two solutions (for two values of eps), one of each
+eps_list = [0.1, 0.25, 0.5, 0.75]
 
 ## Part 2:
 # eigenvalues, eps_n, belong to normalizable eigenfunctions
@@ -237,3 +263,4 @@ normed_psi = normalized_function(psi)
 # a) use this property and eps_n of the first 3 bound states to 2 after comma decimals
 
 
+plt.show()
