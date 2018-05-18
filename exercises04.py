@@ -214,7 +214,7 @@ fig.savefig("exercise4_problem2_numIntegration.pdf")
 
 
 # d) Plot two solutions (for two values of eps), one of each
-eps_list = [0.1, 0.25, 0.5, 0.75]
+eps_list = [0.1, 0.25, 0.5, 0.75, 1.0]
 fig, axarr = plt.subplots(2,1)
 for e in eps_list:
     normed_psi = normalized_function(numerov(psi0, psi1, e, N, eps_mins_x_k))
@@ -222,7 +222,7 @@ for e in eps_list:
 axarr[0].legend()
 axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
-axarr[0].set_title("Neutron in Gravitational Field: $\epsilon$={}".format(eps))
+axarr[0].set_title("Neutron in Gravitational Field: $\epsilon$={}".format(eps_list))
 plt.tight_layout()
 fig.savefig("exercise4_problem2_varyEps.pdf")
 
