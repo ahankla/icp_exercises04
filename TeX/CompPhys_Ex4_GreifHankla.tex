@@ -32,39 +32,39 @@
 
 
 % Homework
-\section*{Exercise 2: Neutrons in the grvitational field}
+\section*{Exercise 2: Neutrons in the gravitational field}
 
-\begin{align*}
-  0 &= \bigg(\frac{\hbar^2}{2m} \frac{\partial^2}{\partialz^2} - V(z) \bigg)
+\begin{align}
+  0 &= \bigg(\frac{\hbar^2}{2m} \frac{\partial^2}{\partial z^2} - V(z) \bigg)
             \psi(z) + E \psi(z)  \\     
-  0 &= \bigg(\frac{\hbar^2}{2m} \frac{\partial^2}{\partialz^2} - mgz \bigg)
+  0 &= \bigg(\frac{\hbar^2}{2m} \frac{\partial^2}{\partial z^2} - mgz \bigg)
             \psi(z) + E \psi(z)  \\     
-  0 &= \bigg(\frac{\hbar^2}{2m} \frac{1}{R^2} \frac{\partial^2}{\partialz^2} - mgRx \bigg)
+  0 &= \bigg(\frac{\hbar^2}{2m} \frac{1}{R^2} \frac{\partial^2}{\partial z^2} - mgRx \bigg)
             \psi(x) + mgR\epsilon \psi(x)  \\       
   0 &= \psi''(x) + (\epsilon - x) \psi(x)  
   \label{eq:neutron_grav}
-\end{align*}
+\end{align}
 
 where we used
-\begin{align*}
+\begin{align}
   R &= \bigg( \frac{\hbar^2}{2m^2g} \bigg) ^(1/3)  \\
   x &= z/R = V(x) * \bigg( \frac{1}{mgR} \bigg)  \\
   \epsilon &= \frac{E}{mgR}  
-\end{align*}
+\end{align}
 
 with units
-\begin{align*}
-  [R] &= \bigg( \frac{[Energy \times time]^2}{[mass]^2 [length \times \time^{-2}]} \bigg) ^(1/3)  \\
+\begin{align}
+  [R] &= \bigg( \frac{[Energy \times time]^2}{[mass]^2 [length \times time^{-2}]} \bigg)^{1/3}  \\
       &= [Energy^2 \times time^4 \times mass^{-2} \times length^{-1}]  \\
       &= [[mass \times length^2 \times time^{-2}]^2 \times time^4 \times mass^{-2} \times length^{-1}]  \\
       &= [mass^2 \times length^4 \times time^{-4} \times time^4 \times mass^{-2} \times length^{-1}]  \\
       &= [length^3]  \\
-  [x] &= [length]/[length^3] = [length^{-2}]  \\
-  [\epsilon] &= \frac{[Energy]}{[mass][m][length \times \time^{-2}][length^3]}  \\
-             &= [Energy \times mass^{-1} \times length^{-1} \times time^2 \times length^-3 ] \\
+  [x] &= [length]/[length^3] = [length^{-2}] \\
+  [\epsilon] &= \frac{[Energy]}{[mass][m][length \times time^{-2}][length^3]}  \\
+             &= [Energy \times mass^{-1} \times length^{-1} \times time^2 \times length^{-3} ] \\
              &= [mass \times length^2 \times time^{-2} \times mass^{-1} \times length^{-1} \times time^2 \times length^{-3}]  \\
              &= [length^{-2}]
-\end{align*}
+\end{align}
 
 
 
@@ -108,15 +108,19 @@ varing order of the exponential.
 
 Given that, $\psi(x) \rightarrow 0$ for $x \rightarrow \infty$, 
 and increasing $\epsilon_n$ leads to $psi(x)$ changing the sign of its asymptotic
-behavior. 
-# eigenvalues, eps_n, belong to normalizable eigenfunctions
-# with psi(x)->0 for x->inf
-# therefore, increasing eps_n => psi(x) changes sign for x->inf
-# a) use this property and eps_n of the first 3 bound states to 2 after comma decimals
+behavior, you can determine the first 3 bound states. The first bound states should correspond
+to the first eigentstates where the wavefunction does not diverge. However, due to the lack of a 
+proper integration we have been unable to show these, and in fact got an continuously spaced
+solution for general non quantized cases. We must sadly concede defeat at this point. However, for those interested the Diplom Thesis of Krantz 2006, has the solutions needed. 
+%# eigenvalues, eps_n, belong to normalizable eigenfunctions
+%# with psi(x)->0 for x->inf
+%# therefore, increasing eps_n => psi(x) changes sign for x->inf
+%# a) use this property and eps_n of the first 3 bound states to 2 after comma decimals
 
 
 
 %
+\subsection*{Appendix: Code}
 The code for the exercises is as follows:
 \verbatiminput{../exercises04.py}
 
