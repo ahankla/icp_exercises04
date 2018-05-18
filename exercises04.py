@@ -168,42 +168,6 @@ fig.savefig("exercise4_problem1_symEx.pdf")
 # Finding stationary states in the gravitational field of Earth
 # https://www.physi.uni-heidelberg.de/Publications/dipl_krantz.pdf
 
-def mirror(mirror_pos, *argchecks):  # validate arguments
-    """ 
-    decorator placing mirror at mirror_pos
-    if z<mirror_pos: return np.inf
-    """
-    def onDecorator(func):
-        if not __debug__: 
-            # Allow for pass through in debug mode
-            return func 
-        else:     
-            def onCall(*args):
-            # Execute Decorator
-                m, g, z = argchecks
-                if z < mirror_pos:
-                    print('hit mirror')
-                    return np.inf()
-                else:
-                    return func(*args)
-            return onCall
-    return onDecorator
-
-
-@mirror(mirror_pos=0)
-def grav_potential(m, g, z):
-    """ return newtonian gravitational potential: V(z) = mgz """
-    # Normalized, really only need z...
-    return m*g*z
-
-#def mirror(z, mirror_pos=0):
-#    """ implement mirror at z-position """ 
-#    if z >= mirror_pos:
-#        return grav_potential
-#    else:
-#        print("Hit mirror")
-#        return np.inf()
-
 
 # psi'' + 2m/hbar (E-V(z)) psi = 0
 # psi'' + 2m/hbar (E-mgz)) psi = 0
@@ -226,15 +190,16 @@ def grav_potential(m, g, z):
 #   x = (2m/hbar) V(x)
 #   eps = E*2m/hbar
 # General
-N = 100
+N = 500
 ## Numeric Solutions
 eps = 1.5
+x_last = 20
 psi0 = 0  # trivial first solution
 psi1 = 1  # 
 psi = numerov(psi0, psi1, eps, N, eps_mins_x_k)
 ## Analytic
 n = 1
-xr = np.linspace(0, 1, N)
+xr = np.linspace(0, x_last, N)
 analytic_soln = analytic_wavefunction(xr, n)
 # Normalize 
 normed_psi = normalized_function(psi)
@@ -251,6 +216,9 @@ axarr[0].legend()
 axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Neutron in Gravitational Field: {}".format(eps))
+plt.tight_layout()
+fig.savefig("exercise4_problem2_numintegration.pdf")
+
 
 # c) for large x: does it approach +/- inf?
 
