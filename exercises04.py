@@ -221,7 +221,7 @@ fig.savefig("exercise4_problem2_numIntegration.pdf")
 # d) Plot two solutions (for two values of eps), one of each
 
 # plotting a bunch, all with the same shape??
-eps_list = [-5, -1, 0, 1.0, 5, 10, 20, 40, 80]
+eps_list = [-20, -5, -1, 0, 1.0, 5, 10, 20, 40, 80, 200]
 fig, axarr = plt.subplots(2,1)
 for eps in eps_list:
     normed_psi = normalized_function(numerov(psi0, psi1, eps, N, eps_mins_x_k))
