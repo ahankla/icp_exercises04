@@ -229,7 +229,7 @@ fig.savefig("exercise4_problem2_numIntegration.pdf")
 
 # d) Plot two solutions (for two values of eps), one of each
 
-# plotting a bunch, all with the same shape??
+# plotting a bunch, all with the same shape
 eps_list = [-20.0, -5.0, -1.0, 0.0, 1.0, 5.0, 10.0, 20.0, 40.0, 80.0, 200.0]
 fig, axarr = plt.subplots(1,1, figsize=(12,7))
 for eps in eps_list:

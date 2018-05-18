@@ -73,9 +73,27 @@ with units
 \begin{figure}[h!]
   \centering
   \includegraphics[width=.9\textwidth]{../exercise4_problem2_numIntegration.pdf}
-  \caption{Numerically integrating Eq.~\ref{eq:neutron_grav}}
+  \caption{Numerically integrating Eq.~\ref{eq:neutron_grav}, plotted well into the 
+            classically forbidden range, $x >> \epsilon$}
   \label{fig:2a}
 \end{figure}
+
+For large x, these are supposed to approach $\pm \infty$, however, due to some 
+problems in the code, this behavior has not been recovered. Hence, we are unable
+to plot one of each. 
+
+In Fig.~\ref{fig:2b}, various values of $\epsilon$ are plotted
+showing the recovering of sinusoidal behavior without a damping factor, with the
+frequency increasing as $\epsilon$ increases. For $\epsilon<0$, we recovered 
+an exponential function. This clearly indicates that the potential function applied
+has a problem, specifically, we have no mirror interactions or gravitational effect
+visible in the solutions. An explicit integration of the fully specific Equation 
+should recover the true behavior, but has not been feasible to be completed to a 
+reasonable defree within the timeframe, due to missing the forrest for all the trees.
+
+The picture shows clearly a general solution behavior of a second order ordinary
+differential equation, with varying frequencies of the resulting sinusoidal and 
+varing order of the exponential.
 
 \begin{figure}[h!]
   \centering
@@ -85,8 +103,16 @@ with units
 \end{figure}
 
 
+
 \subsection*{Part 2}
 
+Given that, $\psi(x) \rightarrow 0$ for $x \rightarrow \infty$, 
+and increasing $\epsilon_n$ leads to $psi(x)$ changing the sign of its asymptotic
+behavior. 
+# eigenvalues, eps_n, belong to normalizable eigenfunctions
+# with psi(x)->0 for x->inf
+# therefore, increasing eps_n => psi(x) changes sign for x->inf
+# a) use this property and eps_n of the first 3 bound states to 2 after comma decimals
 
 
 
