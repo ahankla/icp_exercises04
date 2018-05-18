@@ -13,6 +13,23 @@
 \begin{document}
 \maketitle
 
+% Lab
+\section{Exercise 1: Numerov Algorithm for the Schroedinger Equation}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=.9\textwidth]{../exercise4_problem1_antisymEx.pdf}
+  \caption{} \label{fig:1a}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=.9\textwidth]{../exercise4_problem1_symEx.pdf}
+  \caption{} \label{fig:1b}
+\end{figure}
+
+
+% Homework
 \section*{Exercise 2: Neutrons in the grvitational field}
 
 \begin{align*}
@@ -30,81 +47,21 @@ where we used
   \epsilon &= \frac{E}{mgR}  
 \end{align*}
 
-the equations of motion are (setting Newton's gravitational constant $G=1$ and using dot for time derivative):
-\begin{align*}
-  \ddot{\vec x}_1 &= \frac{m_2}{|r_{12}|^3}\vec r_{12}-\frac{m_3}{|r_{31}|^3}\vec r_{31}\\
-  \ddot {\vec x}_2 &= \frac{m_3}{|r_{23}|^3}\vec r_{23}-\frac{m_1}{|r_{12}|^3}\vec r_{12}\\
-  \ddot {\vec x}_3 &= \frac{m_1}{|r_{31}|^3}\vec r_{31}-\frac{m_2}{|r_{23}|^3}\vec r_{23}
-\end{align*}
-where $|r_{ij}|$ is the magnitude of the vector $\vec r_{ij}$.\\
-\\
-By introducing the variables $\vec v_{i} = \dot{\vec x}_i$, we have the full set of 12 equations (six times two components x/y each):
-\begin{align*}
-  \dot {\vec v}_1 &= \frac{m_2}{|r_{12}|^3}\vec r_{12}-\frac{m_3}{|r_{31}|^3}\vec r_{31}\\
-  \dot {\vec v}_2 &= \frac{m_3}{|r_{23}|^3}\vec r_{23}-\frac{m_1}{|r_{12}|^3}\vec r_{12}\\
-  \dot {\vec v}_3 &= \frac{m_1}{|r_{31}|^3}\vec r_{31}-\frac{m_2}{|r_{23}|^3}\vec r_{23}\\
-  \dot {\vec x}_1 &= \vec v_1\\
-  \dot {\vec x}_2 &= \vec v_2\\
-  \dot {\vec x}_3 &= \vec v_3
-\end{align*}
-Now we can use the fourth-order Runge-Kutta integrator to plot orbits of the three bodies. As a test, we set the third body to be at the origin and have zero velocity so that the system acts as a two-body problem. The proof-of-concept is shown in Figure~\ref{fig:circ}.
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=.9\textwidth]{figs/exercise03_0_stepsize001.pdf}
-  \caption{Fourth-order Runge-Kutta proof-of-concept. Stars indicate starting location. Results are similar for other step sizes.} \label{fig:circ}
-\end{figure}
 
-\subsection*{Part a}
-Simply plugging in the specificied initial conditions yields the plot in Figure~\ref{fig:2a}. Results are indistinguishable for step sizes between $0.01$ and 0.001.\\
-\\
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=.9\textwidth]{figs/exercise03_1_stepsize001.pdf}
-  \caption{Fourth-order Runge-Kutta three-body integration. Stars indicate starting location. Results are similar for other step sizes.} \label{fig:2a}
-\end{figure}
+\subsection*{Part 1}
 
 
-\subsection*{Part b: Trajectories}
-Meissel-Burrau Problem using RK4
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[]{figs/exercise03_2_stepsize001_time20.pdf}
-  \caption{Trajectories h = 0.001}
-\end{figure}
-\begin{figure}[h]
-  \centering
-  \includegraphics[]{figs/exercise03_2_stepsize00002_time9.pdf}
-  \caption{Trajectories h = 0.0002}
-\end{figure}
-\begin{figure}[h]
-   \centering
-   \includegraphics[]{figs/exercise03_2_stepsize00001_time9.pdf}
-   \caption{Trajectories h = 0.0001}
-\end{figure}
-\begin{figure}[h]
-  \centering
-  \includegraphics[]{figs/exercise03_2_stepsize5e-05_time10.pdf}
-  \caption{Trajectories h = 0.00005}
-\end{figure}[h!]
 
-\subsection*{Part b: Distances}
-\begin{figure}[h!]
-  \centering
-  \includegraphics[]{figs/exercise03_3_stepsize5e-05_time10.pdf}
-  \caption{Distances, h = 0.00005}
-\end{figure}[h!]
+\subsection*{Part 2}
 
-\subsection*{Part b: Total Energy Error}
-\begin{figure}[h!]
-  \centering
-  \includegraphics[]{figs/exercise03_4_stepsize5e-05_time10.pdf}
-  \caption{Error in Total Energy}
-\end{figure}[h!]
 
 %
 The code for the exercises is as follows:
-%\verbatiminput{C:/Users/Amelia/PycharmProjects/icp_exercises03/exercises03.py}
-%
+\verbatiminput{../exercises04.py}
+
+
+
+
 \end{document}
 
