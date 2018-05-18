@@ -182,13 +182,13 @@ fig.savefig("exercise4_problem1_symEx.pdf")
 # General
 N = 500
 ## Numeric Solutions
-eps = 1.5
-x_last = 10  # x_last >> eps
+eps = 5
+x_last = 50  # x_last >> eps
 psi0 = 0  # trivial first solution
 psi1 = 5  # 
 psi = numerov(psi0, psi1, eps, N, eps_mins_x_k)
 ## Analytic
-n = 1
+n = 4
 xr = np.linspace(0, x_last, N)
 analytic_soln = analytic_wavefunction(xr, n)
 # Normalize 
@@ -219,11 +219,13 @@ fig.savefig("exercise4_problem2_numIntegration.pdf")
 
 
 # d) Plot two solutions (for two values of eps), one of each
-eps_list = [0.1, 0.25, 0.5, 0.75, 1.0]
+
+# plotting a bunch, all with the same shape??
+eps_list = [-5, -1, 0, 1.0, 5, 10, 20, 40, 80]
 fig, axarr = plt.subplots(2,1)
-for e in eps_list:
-    normed_psi = normalized_function(numerov(psi0, psi1, e, N, eps_mins_x_k))
-    axarr[0].plot(xr, normed_psi, label="Numeric $\epsilon$={}".format(e))
+for eps in eps_list:
+    normed_psi = normalized_function(numerov(psi0, psi1, eps, N, eps_mins_x_k))
+    axarr[0].plot(xr, normed_psi, label="Numeric $\epsilon$={}".format(eps))
 axarr[0].legend()
 axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
