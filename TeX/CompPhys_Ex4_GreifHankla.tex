@@ -35,11 +35,14 @@
 \section*{Exercise 2: Neutrons in the grvitational field}
 
 \begin{align*}
-  0 &= \bigg(-\frac{\hbar^2}{2m} \frac{\partial^2}{\partialz^2} + mgz \bigg)
-            \psi(z) - E \psi(z)  \\     
-  0 &= \bigg(-\frac{\hbar^2}{2m} \frac{1}{R^2} \frac{\partial^2}{\partialz^2} + mgRx \bigg)
-            \psi(x) - mgR\epsilon \psi(x)  \\       
+  0 &= \bigg(\frac{\hbar^2}{2m} \frac{\partial^2}{\partialz^2} - V(z) \bigg)
+            \psi(z) + E \psi(z)  \\     
+  0 &= \bigg(\frac{\hbar^2}{2m} \frac{\partial^2}{\partialz^2} - mgz \bigg)
+            \psi(z) + E \psi(z)  \\     
+  0 &= \bigg(\frac{\hbar^2}{2m} \frac{1}{R^2} \frac{\partial^2}{\partialz^2} - mgRx \bigg)
+            \psi(x) + mgR\epsilon \psi(x)  \\       
   0 &= \psi''(x) + (\epsilon - x) \psi(x)  
+  \label{eq:neutron_grav}
 \end{align*}
 
 where we used
@@ -67,11 +70,24 @@ with units
 
 \subsection*{Part 1}
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=.9\textwidth]{../exercise4_problem2_numIntegration.pdf}
+  \caption{Numerically integrating Eq.~\ref{eq:neutron_grav}}
+  \label{fig:2a}
+\end{figure}
 
-
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=.9\textwidth]{../exercise4_problem2_varyEps.pdf}
+  \caption{Numerically integrating Eq.~\ref{eq:neutron_grav} with varying $\epsilon$}
+  \label{fig:2b}
+\end{figure}
 
 
 \subsection*{Part 2}
+
+
 
 
 %

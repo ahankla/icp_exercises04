@@ -169,33 +169,23 @@ fig.savefig("exercise4_problem1_symEx.pdf")
 # https://www.physi.uni-heidelberg.de/Publications/dipl_krantz.pdf
 
 
-# psi'' + 2m/hbar (E-V(z)) psi = 0
-# psi'' + 2m/hbar (E-mgz)) psi = 0
-# psi'' + (eps - (2m/hbar)*mgz) psi = 0
-# psi'' + (eps - x) psi = 0
-# psi''(x) + (eps-x) psi(x) = 0
-
-
 ## Part 1:
 
 # a) Solve using Numerov
 # Specify length & energy units:
 #   eps = E*2m/hbar
-#   x = (2m^2 g/hbar)*z
+#   x = (2m^2 g/hbar)*z = (2m/hbar) V(x)
 # Or:
 #   R = (hbar^2/(sm^2 g)^1/3
 #   x = z/R
 #   eps = E/(mgR)
-# with V(z) = mgz:
-#   x = (2m/hbar) V(x)
-#   eps = E*2m/hbar
 # General
 N = 500
 ## Numeric Solutions
-eps = 1.5
-x_last = 20
+eps = 1
+x_last = 10  # x_last >> eps
 psi0 = 0  # trivial first solution
-psi1 = 1  # 
+psi1 = 5  # 
 psi = numerov(psi0, psi1, eps, N, eps_mins_x_k)
 ## Analytic
 n = 1
@@ -215,9 +205,9 @@ axarr[0].plot(xr, analytic_soln,
 axarr[0].legend()
 axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
-axarr[0].set_title("Neutron in Gravitational Field: {}".format(eps))
+axarr[0].set_title("Neutron in Gravitational Field: $\epsilon$={}".format(eps))
 plt.tight_layout()
-fig.savefig("exercise4_problem2_numintegration.pdf")
+fig.savefig("exercise4_problem2_numIntegration.pdf")
 
 
 # c) for large x: does it approach +/- inf?
@@ -225,6 +215,16 @@ fig.savefig("exercise4_problem2_numintegration.pdf")
 
 # d) Plot two solutions (for two values of eps), one of each
 eps_list = [0.1, 0.25, 0.5, 0.75]
+fig, axarr = plt.subplots(2,1)
+for e in eps_list:
+    normed_psi = normalized_function(numerov(psi0, psi1, e, N, eps_mins_x_k))
+    axarr[0].plot(xr, normed_psi, label="Numeric $\epsilon$={}".format(e))
+axarr[0].legend()
+axarr[0].set_xlabel("x")
+axarr[0].set_ylabel("wavefunction psi")
+axarr[0].set_title("Neutron in Gravitational Field: $\epsilon$={}".format(eps))
+plt.tight_layout()
+fig.savefig("exercise4_problem2_varyEps.pdf")
 
 ## Part 2:
 # eigenvalues, eps_n, belong to normalizable eigenfunctions
