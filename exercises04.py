@@ -137,12 +137,12 @@ psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
 # Analytic Solution
 analytic_soln = analytic_wavefunction(xr, n)
 # Normalize: x, numeric, analytic
-normed_psi = normalized_function(psi)
+normed_psi = normalized_function(psi)**2  #
 analytic_soln = normalized_function(analytic_soln)**2
 # Plot 2
 fig, axarr = plt.subplots(2,1)
 # Plot 2: Solutions
-axarr[0].plot(xr, normed_psi**2, label="Numeric")
+axarr[0].plot(xr, normed_psi, label="Numeric")
 axarr[0].plot(xr, analytic_soln, 
          linestyle=":", label="Analytic")
 axarr[0].legend()
@@ -227,24 +227,26 @@ def grav_potential(m, g, z):
 #   eps = E*2m/hbar
 # General
 N = 100
-eps = -0.2
-# First Values
-psi0 = 0  # trivial solution
+## Numeric Solutions
+eps = 1.5
+psi0 = 0  # trivial first solution
 psi1 = 1  # 
-# Numeric Solutions
 psi = numerov(psi0, psi1, eps, N, eps_mins_x_k)
+## Analytic
+n = 1
+xr = np.linspace(0, 1, N)
+analytic_soln = analytic_wavefunction(xr, n)
 # Normalize 
-#normed_psi = normalized_function(psi)
-xr = np.linspace(0, 1, N)  
-
+normed_psi = normalized_function(psi)
+analytic_soln = normalized_function(analytic_soln)
 # b) Plot solution well into classically forbidden zone
 #    that is:  from x=0 to x>>eps  for some values for eps
 # Plot 3
 fig, axarr = plt.subplots(2,1)
 # Plot 3: Solutions
-axarr[0].plot(xr, psi, label="Numeric")
-#axarr[0].plot(xr, analytic_soln, 
-#         linestyle=":", label="Analytic")
+axarr[0].plot(xr, normed_psi, label="Numeric")
+axarr[0].plot(xr, analytic_soln, 
+         linestyle=":", label="Analytic")
 axarr[0].legend()
 axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
