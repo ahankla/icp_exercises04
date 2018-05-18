@@ -115,10 +115,10 @@ axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
 # Remainder
-axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Numeric)")
+axarr[1].plot((analytic_soln-normed_psi)/analytic_soln, label="Remainder (Analytic-Numeric)")
 axarr[1].legend()
 axarr[1].set_xlabel("Step Count N")
-axarr[1].set_ylabel("Difference")
+axarr[1].set_ylabel("Percentage Error")
 plt.tight_layout()
 fig.savefig("exercise4_problem1_antisymEx.pdf")
 # plt.show()
@@ -150,10 +150,10 @@ axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
 # Plot 2: Remainder
-axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Numeric)")
+axarr[1].plot((analytic_soln-normed_psi)/analytic_soln, label="Remainder (Analytic-Numeric)")
 axarr[1].legend()
 axarr[1].set_xlabel("Step Count N")
-axarr[1].set_ylabel("Difference")
+axarr[1].set_ylabel("Percentage Error")
 plt.tight_layout()
 fig.savefig("exercise4_problem1_symEx.pdf")
 
@@ -182,7 +182,7 @@ fig.savefig("exercise4_problem1_symEx.pdf")
 # General
 N = 500
 ## Numeric Solutions
-eps = 1
+eps = 1.5
 x_last = 10  # x_last >> eps
 psi0 = 0  # trivial first solution
 psi1 = 5  # 
@@ -206,6 +206,11 @@ axarr[0].legend()
 axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Neutron in Gravitational Field: $\epsilon$={}".format(eps))
+# Plot 3: Remainder
+axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Numeric)")
+axarr[1].legend()
+axarr[1].set_xlabel("Step Count N")
+axarr[1].set_ylabel("Difference")
 plt.tight_layout()
 fig.savefig("exercise4_problem2_numIntegration.pdf")
 
