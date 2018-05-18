@@ -7,22 +7,6 @@ from scipy.integrate import simps
 #   Exercise 1: Numerov Algorithm for TISE
 # -----------------------------------------------
 
-def harmonic_oscillator_k(x, eps):
-    """" k(x) function as described in Exercise Sheet 4(normalized):
-         y''(x) + k(x) y(x) = 0
-         x: np.array 1xn
-         eps: normalized energy
-         This specific function k(x) for harmonic oscillator """
-    return 2*eps - x**2
-
-def eps_mins_x_k(x, eps):
-    """" psi''(x) + k(x) psi(x) = 0
-         k(x) = (eps-x)
-         x: np.array 1xn
-         eps: normalized energy """
-    x[x<0] = np.inf  # mirror
-    return eps - x
-
 def numerov(psi0, psi1, eps, N, kfun):
     """ Numerov Integration of TISE
     Starting conditions:
@@ -57,7 +41,27 @@ def numerov(psi0, psi1, eps, N, kfun):
 
     return psi
 
+# kfunc's
+def harmonic_oscillator_k(x, eps):
+    """" k(x) function as described in Exercise Sheet 4(normalized):
+         y''(x) + k(x) y(x) = 0
+         x: np.array 1xn
+         eps: normalized energy
+         This specific function k(x) for harmonic oscillator """
+    return 2*eps - x**2
 
+# kfunc's
+def eps_mins_x_k(x, eps):
+    """" psi''(x) + k(x) psi(x) = 0
+         k(x) = (eps-x)
+         x: np.array 1xn
+         eps: normalized energy """
+    #print(np.count_nonzero(x[x<0]), np.max(x), np.min(x))
+    ## Never zero...
+    x[x<0] = np.inf  # mirror, since x prop to V(z), as V(z)->inf, x->inf
+    return eps - x
+
+# analytic tools
 def hermite_generator(x, n):
     """ Calculate the nth Hermite polynomial recursively.
         Formula from Exercise Sheet 4. """
@@ -69,17 +73,22 @@ def hermite_generator(x, n):
         return 2*x*hermite_generator(x, n-1) \
                -2*(n-1)*hermite_generator(x, n-2)
 
-
-def analytic_wavefunction(x, n):
+# analytic tools
+def analytic_wavefunction_harmonic(x, n):
     """ Calculate the analytic solution to the TISE
         given that the energy is the nth eigenvalue
         eps = n+1/2 where n is given as an argument.
         x is just the range over which to calculate.
-        Formula from Exercise Sheet 4"""
+        Formula from Exercise Sheet 4 """
     hermiten = hermite_generator(x, n)
     return hermiten/(2**n * np.math.factorial(n) * np.pi**0.5) * np.exp(-x**2/2.)
 
+def analytic_wavefunction_neutron(x, n):
+    """  """
+    return 
 
+
+# integral normalization
 def normalized_function(psi):
     """ Normalize a function such that the integral of it squared is one.
         Returns the normalized function. """
@@ -100,7 +109,7 @@ psi1 = 1  # a = 1
 # Numeric Solution (normalized)
 psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
 # Analytic Solution (normalized)
-analytic_soln = analytic_wavefunction(xr, n)
+analytic_soln = analytic_wavefunction_harmonic(xr, n)
 # Normalize: x, numeric, analytic
 normed_psi = normalized_function(psi)
 analytic_soln = normalized_function(analytic_soln)
@@ -115,7 +124,7 @@ axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
 # Remainder
-axarr[1].plot((analytic_soln-normed_psi)/analytic_soln, label="Remainder (Analytic-Numeric)")
+axarr[1].plot((analytic_soln-normed_psi)/analytic_soln, label="Percentage Error (Analytic-Numeric)/Analytic")
 axarr[1].legend()
 axarr[1].set_xlabel("Step Count N")
 axarr[1].set_ylabel("Percentage Error")
@@ -135,7 +144,7 @@ psi1 = psi0 - (1./N)**2*psi0/2*harmonic_oscillator_k(0, eps)
 # Numeric Solution
 psi = numerov(psi0, psi1, eps, N, harmonic_oscillator_k)
 # Analytic Solution
-analytic_soln = analytic_wavefunction(xr, n)
+analytic_soln = analytic_wavefunction_harmonic(xr, n)
 # Normalize: x, numeric, analytic
 normed_psi = normalized_function(psi)**2  #
 analytic_soln = normalized_function(analytic_soln)**2
@@ -150,7 +159,7 @@ axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Sample Antisymmetric function: Energy Eigenvalue {}".format(n))
 # Plot 2: Remainder
-axarr[1].plot((analytic_soln-normed_psi)/analytic_soln, label="Remainder (Analytic-Numeric)")
+axarr[1].plot((analytic_soln-normed_psi)/analytic_soln, label="Percentage Error (Analytic-Numeric)/Analytic")
 axarr[1].legend()
 axarr[1].set_xlabel("Step Count N")
 axarr[1].set_ylabel("Percentage Error")
@@ -180,17 +189,17 @@ fig.savefig("exercise4_problem1_symEx.pdf")
 #   x = z/R
 #   eps = E/(mgR)
 # General
-N = 500
+N = 10000
 ## Numeric Solutions
-eps = 5
-x_last = 50  # x_last >> eps
+eps = 20
+x_last = 1000  # x_last >> eps
 psi0 = 0  # trivial first solution
-psi1 = 5  # 
+psi1 = 1  # 
 psi = numerov(psi0, psi1, eps, N, eps_mins_x_k)
 ## Analytic
-n = 4
+n = 2
 xr = np.linspace(0, x_last, N)
-analytic_soln = analytic_wavefunction(xr, n)
+#analytic_soln = analytic_wavefunction_neutron(xr, n)
 # Normalize 
 normed_psi = normalized_function(psi)
 analytic_soln = normalized_function(analytic_soln)
@@ -200,15 +209,15 @@ analytic_soln = normalized_function(analytic_soln)
 fig, axarr = plt.subplots(2,1)
 # Plot 3: Solutions
 axarr[0].plot(xr, normed_psi, label="Numeric")
-axarr[0].plot(xr, analytic_soln, 
-         linestyle=":", label="Analytic")
+#axarr[0].plot(xr, analytic_soln, 
+#         linestyle=":", label="Analytic")
 axarr[0].legend()
 axarr[0].set_xlabel("x")
 axarr[0].set_ylabel("wavefunction psi")
 axarr[0].set_title("Neutron in Gravitational Field: $\epsilon$={}".format(eps))
 # Plot 3: Remainder
-axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Numeric)")
-axarr[1].legend()
+#axarr[1].plot(analytic_soln-normed_psi, label="Remainder (Analytic-Numeric)")
+#axarr[1].legend()
 axarr[1].set_xlabel("Step Count N")
 axarr[1].set_ylabel("Difference")
 plt.tight_layout()
@@ -221,15 +230,15 @@ fig.savefig("exercise4_problem2_numIntegration.pdf")
 # d) Plot two solutions (for two values of eps), one of each
 
 # plotting a bunch, all with the same shape??
-eps_list = [-20, -5, -1, 0, 1.0, 5, 10, 20, 40, 80, 200]
-fig, axarr = plt.subplots(2,1)
+eps_list = [-20.0, -5.0, -1.0, 0.0, 1.0, 5.0, 10.0, 20.0, 40.0, 80.0, 200.0]
+fig, axarr = plt.subplots(1,1, figsize=(12,7))
 for eps in eps_list:
     normed_psi = normalized_function(numerov(psi0, psi1, eps, N, eps_mins_x_k))
-    axarr[0].plot(xr, normed_psi, label="Numeric $\epsilon$={}".format(eps))
-axarr[0].legend()
-axarr[0].set_xlabel("x")
-axarr[0].set_ylabel("wavefunction psi")
-axarr[0].set_title("Neutron in Gravitational Field: $\epsilon$={}".format(eps_list))
+    axarr.plot(xr, normed_psi, label="Numeric $\epsilon$={}".format(eps))
+axarr.legend()
+axarr.set_xlabel("x")
+axarr.set_ylabel("wavefunction psi")
+axarr.set_title("Neutron in Gravitational Field: $\epsilon$={}".format(eps_list))
 plt.tight_layout()
 fig.savefig("exercise4_problem2_varyEps.pdf")
 
